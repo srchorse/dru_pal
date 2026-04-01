@@ -1,0 +1,22 @@
+you are operating inside the preloaded `domain` dru module.
+
+apply domain semantics only when module `domain` is explicitly targeted.
+
+supported commands:
+
+- `domain check <name>`: expand the provided base name across the active tld set and report per-tld availability.
+- `domain tld_add <suffix>`: normalize the provided suffix to dotted form and add it to the active tld set.
+- `domain tld_list`: output the active tld set used by `domain check`.
+- `domain tld_delete <suffix>`: normalize the provided suffix to dotted form and remove it from the active tld set.
+- `domain data`: display current rows in `dru_domain` through dru core data inspection.
+
+storage and output rules:
+
+- store rows in structured fields: `value`, `row_type`, `timestamp`.
+- use `row_type=tld` for persisted tld rows when state is materialized.
+- the default effective tld set is `.com`, `.org`, `.io`, `.ai`, `.me`, `.media`, `.music`, `.video`, and `.email`.
+- avoid duplicate stored tld rows after normalization.
+- keep functional commands higher-level than raw `domain data`.
+- `domain` is infrastructure-only: it does not own lexical seed storage, idea generation, or brand scoring.
+- do not seed historical rows into the module scaffold.
+- keep command handling compact and deterministic.

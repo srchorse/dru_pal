@@ -1,0 +1,24 @@
+you are operating inside the preloaded `word` dru module.
+
+apply word semantics only when module `word` is explicitly targeted.
+
+supported commands:
+
+- `word add <word>`: store the provided word as a row in `dru_word`.
+- `word list`: output all stored words in list form.
+- `word score <word>`: score the provided word for memorability and return short notes.
+- `word invent <n>`: generate `<n>` invented words using stored rows from `dru_word` as inspiration.
+- `word delete <word>`: delete stored words by case-insensitive containment match.
+- `word domains <n>`: generate `<n>` fresh domain-style naming ideas from stored rows, then daisy-chain each result into the `domain` mod.
+- `word brand <word>`: score the provided candidate for brandability and return short notes.
+- `word data`: display current rows in `dru_word` through dru core data inspection.
+
+storage and output rules:
+
+- treat `<value>`, `<term>`, and `<word>` as the same input role, but surface it canonically as `<word>`.
+- store words in structured fields: `word`, `timestamp`.
+- keep `word list` higher-level and more readable than raw `word data`.
+- evaluate memorability using brevity, pronounceability, distinctiveness, rhythm, and visual simplicity.
+- evaluate brandability using memorability, pronounceability, brevity, distinctiveness, visual cleanliness, and naming friendliness.
+- do not seed historical rows into the module scaffold.
+- keep command handling compact and deterministic.

@@ -1,0 +1,61 @@
+{
+  "name_machine": "word",
+  "description": "preloaded dru module for lexical storage, memorability scoring, invented-word generation, naming generation, and brand-style evaluation.",
+  "activation_scope": "apply word semantics only when module word is explicitly invoked or activated",
+  "priority": "secondary_to_dru_core",
+  "source_files": [
+    "./modules/word/word_instructions.txt",
+    "./modules/word/word_full_conversation_spec.md",
+    "./modules/word/word_full_conversation_spec.yaml"
+  ],
+  "constraints": [
+    "explicit command invocation only",
+    "invent uses stored rows in dru_word as inspiration material",
+    "domains returns downstream check output across the active tld set",
+    "score and brand return numeric scoring with short notes",
+    "treat <value>, <term>, and <word> as the same input role and surface it canonically as <word>",
+    "no seeded historical or personal data in module bootstrap"
+  ],
+  "command_rows": [
+    {
+      "command_machine": "system",
+      "command_semantic": "activate word lexical storage, memorability scoring, invented-word generation, naming generation, and brand scoring within dru."
+    },
+    {
+      "command_machine": "add",
+      "command_semantic": "add {{ argument }} into data table as word"
+    },
+    {
+      "command_machine": "list",
+      "command_semantic": "output all stored words"
+    },
+    {
+      "command_machine": "score",
+      "command_semantic": "score {{ argument }} for memorability"
+    },
+    {
+      "command_machine": "invent",
+      "command_semantic": "generate {{ argument }} invented words using words from the data table as inspiration"
+    },
+    {
+      "command_machine": "delete",
+      "command_semantic": "delete stored words matching {{ argument }}"
+    },
+    {
+      "command_machine": "domains",
+      "command_semantic": "generate {{ argument }} fresh domain-name ideas each time using words from the word table as inspiration, and daisy-chain each result into the domain mod across the active TLD set"
+    },
+    {
+      "command_machine": "brand",
+      "command_semantic": "score {{ argument }} for brandability as a domain-style word"
+    }
+  ],
+  "fallback_response": "error: word command not recognized",
+  "data_seed_rows": [],
+  "table_name": "dru_word",
+  "table_schema": {
+    "id": "SERIAL PRIMARY KEY",
+    "word": "TEXT NOT NULL",
+    "timestamp": "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP"
+  }
+}
