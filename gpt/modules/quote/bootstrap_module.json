@@ -1,0 +1,57 @@
+{
+  "name_machine": "quote",
+  "description": "preloaded dru module for quote retrieval, storage, random recall, and search.",
+  "activation_scope": "apply quote semantics only when module quote is explicitly invoked or activated",
+  "priority": "secondary_to_dru_core",
+  "source_files": [
+    "./modules/quote/quote_instructions.txt",
+    "./modules/quote/quote_full_conversation_spec.md",
+    "./modules/quote/quote_full_conversation_spec.yaml"
+  ],
+  "constraints": [
+    "explicit command invocation only",
+    "lookup commands store returned quotes in dru_quote",
+    "random and search operate on stored quote rows only",
+    "no seeded historical or personal data in module bootstrap"
+  ],
+  "command_rows": [
+    {
+      "command_machine": "system",
+      "command_semantic": "activate quote retrieval, storage, random recall, and search rules within dru."
+    },
+    {
+      "command_machine": "add",
+      "command_semantic": "store provided quote as a quote row"
+    },
+    {
+      "command_machine": "from",
+      "command_semantic": "output a relevant quote from {{ argument }} and save it as a row"
+    },
+    {
+      "command_machine": "about",
+      "command_semantic": "output a quote about {{ argument }} and save it as a row"
+    },
+    {
+      "command_machine": "lookup",
+      "command_semantic": "insert and display a quote from {{ argument_1 }} about {{ argument_2 }}"
+    },
+    {
+      "command_machine": "random",
+      "command_semantic": "output a random stored quote from dru_quote"
+    },
+    {
+      "command_machine": "search",
+      "command_semantic": "return stored quotes containing {{ argument }}"
+    }
+  ],
+  "fallback_response": "error: quote command not recognized",
+  "data_seed_rows": [],
+  "table_name": "dru_quote",
+  "table_schema": {
+    "id": "SERIAL PRIMARY KEY",
+    "quote": "TEXT NOT NULL",
+    "source_optional": "TEXT",
+    "topic_optional": "TEXT",
+    "timestamp": "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP"
+  }
+}

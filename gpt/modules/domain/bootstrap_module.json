@@ -1,0 +1,50 @@
+{
+  "name_machine": "domain",
+  "description": "preloaded dru module for TLD policy control and availability checking.",
+  "activation_scope": "apply domain semantics only when module domain is explicitly invoked or activated",
+  "priority": "secondary_to_dru_core",
+  "source_files": [
+    "./modules/domain/domain_instructions.txt",
+    "./modules/domain/domain_full_conversation_spec.md",
+    "./modules/domain/domain_full_conversation_spec.yaml"
+  ],
+  "constraints": [
+    "explicit command invocation only",
+    "domain check expands a base name across the active tld set",
+    "tld mutation normalizes suffixes to dotted form",
+    "tld state is canonicalized to dotted suffix form without duplicates",
+    "domain owns tld policy and availability checking only",
+    "no seeded historical or personal data in module bootstrap"
+  ],
+  "command_rows": [
+    {
+      "command_machine": "system",
+      "command_semantic": "activate domain tld policy control and availability checking within dru."
+    },
+    {
+      "command_machine": "check",
+      "command_semantic": "check whether, for each configured TLD, {{ argument }}.{{ tld }} is available for registration"
+    },
+    {
+      "command_machine": "tld_add",
+      "command_semantic": "add {{ argument }} to the list of TLD's that are checked when the check subcommand is executed"
+    },
+    {
+      "command_machine": "tld_list",
+      "command_semantic": "output all TLD's checked by domain check"
+    },
+    {
+      "command_machine": "tld_delete",
+      "command_semantic": "remove {{ argument }} from the list of checked TLD's"
+    }
+  ],
+  "fallback_response": "error: domain command not recognized",
+  "data_seed_rows": [],
+  "table_name": "dru_domain",
+  "table_schema": {
+    "id": "SERIAL PRIMARY KEY",
+    "value": "TEXT NOT NULL",
+    "row_type": "TEXT DEFAULT 'tld'",
+    "timestamp": "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP"
+  }
+}

@@ -1,0 +1,43 @@
+module:
+  name_machine: domain
+  table_name: dru_domain
+  category: domain_policy
+  activation_scope: explicit_only
+purpose:
+  - check a base name across a configured tld set
+  - mutate the tld set used by checks
+  - hold TLD policy state
+command_surface:
+  - syntax: "domain check <name>"
+    semantic: "check whether, for each configured TLD, {{ argument }}.{{ tld }} is available for registration"
+    stores_row: false
+  - syntax: "domain tld_add <suffix>"
+    semantic: "add {{ argument }} to the list of TLD's that are checked when the check subcommand is executed"
+    stores_row: true
+  - syntax: "domain tld_list"
+    semantic: "output all TLD's checked by domain check"
+    stores_row: false
+  - syntax: "domain tld_delete <suffix>"
+    semantic: "remove {{ argument }} from the list of checked TLD's"
+    stores_row: false
+  - syntax: "domain data"
+    semantic: "display all rows currently stored in dru_domain"
+    stores_row: false
+data_model:
+  table: dru_domain
+  columns:
+    id: "SERIAL PRIMARY KEY"
+    value: "TEXT NOT NULL"
+    row_type: "TEXT DEFAULT 'tld'"
+    timestamp: "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP"
+default_tlds:
+  - ".com"
+  - ".org"
+  - ".io"
+  - ".ai"
+  - ".me"
+  - ".media"
+  - ".music"
+  - ".video"
+  - ".email"
+seeded_rows: []

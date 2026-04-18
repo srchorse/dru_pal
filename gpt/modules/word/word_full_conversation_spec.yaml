@@ -1,0 +1,50 @@
+module:
+  name_machine: word
+  table_name: dru_word
+  category: naming_generation
+  activation_scope: explicit_only
+purpose:
+  - store words in module state
+  - list stored words
+  - score words for memorability
+  - generate invented words from stored word rows
+  - generate fresh naming candidates
+  - score words for brandability
+command_surface:
+  - syntax: "word add <word>"
+    semantic: "add {{ argument }} into data table as word"
+    stores_row: true
+  - syntax: "word list"
+    semantic: "output all stored words"
+    stores_row: false
+  - syntax: "word score <word>"
+    semantic: "score {{ argument }} for memorability"
+    stores_row: false
+  - syntax: "word invent <n>"
+    semantic: "generate {{ argument }} invented words using words from the data table as inspiration"
+    stores_row: false
+  - syntax: "word delete <word>"
+    semantic: "delete stored words matching {{ argument }}"
+    stores_row: false
+  - syntax: "word domains <n>"
+    semantic: "generate {{ argument }} fresh domain-name ideas each time using words from the word table as inspiration, and daisy-chain each result into the domain mod across the active TLD set"
+    stores_row: false
+  - syntax: "word brand <word>"
+    semantic: "score {{ argument }} for brandability as a domain-style word"
+    stores_row: false
+  - syntax: "word data"
+    semantic: "display all rows currently stored in dru_word"
+    stores_row: false
+argument_normalization:
+  canonical_name: word
+  equivalent_inputs:
+    - value
+    - term
+    - word
+data_model:
+  table: dru_word
+  columns:
+    id: "SERIAL PRIMARY KEY"
+    word: "TEXT NOT NULL"
+    timestamp: "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP"
+seeded_rows: []

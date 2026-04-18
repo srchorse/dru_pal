@@ -1,0 +1,48 @@
+module:
+  name_machine: quote
+  table_name: dru_quote
+  category: retrieval_memory
+  activation_scope: explicit_only
+purpose:
+  - retrieve quotes by source
+  - retrieve quotes by topic
+  - retrieve quotes by source_and_topic
+  - store returned quotes in module state
+  - search and randomly recall stored quotes
+command_surface:
+  - syntax: "quote add <quote>"
+    semantic: "store provided quote as a quote row"
+    stores_row: true
+  - syntax: "quote from <source>"
+    semantic: "output a relevant quote from {{ argument }} and save it as a row"
+    stores_row: true
+  - syntax: "quote about <topic>"
+    semantic: "output a quote about {{ argument }} and save it as a row"
+    stores_row: true
+  - syntax: "quote lookup <author> <topic>"
+    semantic: "insert and display a quote from {{ argument_1 }} about {{ argument_2 }}"
+    stores_row: true
+  - syntax: "quote random"
+    semantic: "output a random stored quote from dru_quote"
+    stores_row: false
+  - syntax: "quote search <term>"
+    semantic: "return stored quotes containing {{ argument }}"
+    stores_row: false
+  - syntax: "quote data"
+    semantic: "display all rows currently stored in dru_quote"
+    stores_row: false
+data_model:
+  table: dru_quote
+  columns:
+    id: "SERIAL PRIMARY KEY"
+    quote: "TEXT NOT NULL"
+    source_optional: "TEXT"
+    topic_optional: "TEXT"
+    timestamp: "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP"
+seeded_rows: []
+future_scaffolds:
+  - syntax: "quote subcommand delete \"delete stored quotes matching {{ argument }}\""
+  - syntax: "quote subcommand latest \"output the most recently stored quote\""
+  - syntax: "quote subcommand sources \"list distinct stored quote sources\""
+  - syntax: "quote subcommand topics \"list distinct stored quote topics\""
+  - syntax: "quote subcommand clear \"delete all rows from dru_quote\""
